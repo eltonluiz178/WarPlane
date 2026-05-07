@@ -1,0 +1,26 @@
+# Ambientes Virtuais
+.venv/
+venv/
+ENV/
+
+mise.toml
+
+# Python (Byte-compiled)
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribuição / Pacotes
+dist/
+build/
+*.egg-info/
+
+# Logs e variados
+*.log
+.pytest_cache/
+.mypy_cache/
+
+# Sistema / IDE
+.DS_Store
+.vscode/
+.idea/
