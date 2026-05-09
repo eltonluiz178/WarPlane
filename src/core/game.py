@@ -1,6 +1,7 @@
 import pygame
 import random
 import time
+from scenes.menu_scene import MenuScene
 
 from core.settings import Settings
 from core.window import Window
@@ -14,6 +15,9 @@ class Game:
         self.settings = Settings()
         self.window = Window(self.settings)
         self.clock = pygame.time.Clock()
+        self.menu_scene = MenuScene(
+            self.window.get_surface()
+        )
 
         self.objectGroup = pygame.sprite.Group()
 
@@ -28,11 +32,14 @@ class Game:
     def update(self):
         test = 'teste'
 
-
     def draw(self):
-        """Desenha tudo na tela"""
-        self.objectGroup.draw(self.window.get_surface())
-        self.window.update()  # pygame.display.update()
+        self.menu_scene.draw()
+
+        self.objectGroup.draw(
+            self.window.get_surface()
+        )
+
+        self.window.update()
 
     def run(self):
         """Game Loop principal"""

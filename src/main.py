@@ -1,5 +1,6 @@
 import sys
 import os
+from scenes.menu_scene import MenuScene
 
 # Adiciona o diretório src ao path (para desenvolvimento)
 # Adiciona o diretório atual ao path (para executável do PyInstaller)
