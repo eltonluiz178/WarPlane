@@ -35,6 +35,25 @@ class MenuScene:
             12
         )
 
+        self.play_button = pygame.Rect(230, 240, 260, 58)
+
+        self.config_button = pygame.Rect(230, 310, 260, 58)
+
+        self.extras_button = pygame.Rect(230, 380, 260, 58)
+
+    def handle_event(self, event):
+
+        if event.type == pygame.MOUSEBUTTONDOWN:
+
+            if event.button == 1:
+
+                mouse_pos = pygame.mouse.get_pos()
+
+                if self.play_button.collidepoint(mouse_pos):
+                    return "game"
+
+        return None
+
     def draw(self):
         bg_x = (self.screen.get_width() - self.background.get_width()) // 2
         bg_y = (self.screen.get_height() - self.background.get_height()) // 2
@@ -42,11 +61,14 @@ class MenuScene:
         self.screen.blit(self.background, (bg_x, bg_y))
 
 
-        self.draw_button("JOGAR", 230, 240)
-        self.draw_button("CONFIGURAÇÕES", 230, 310)
-        self.draw_button("EXTRAS", 230, 380)
+        self.draw_button("JOGAR", self.play_button)
+        self.draw_button("CONFIGURAÇÕES", self.config_button)
+        self.draw_button("EXTRAS", self.extras_button)
 
-    def draw_button(self, text, x, y, selected=False):
+    def draw_button(self, text, rect, selected=False):
+        x = rect.x
+        y = rect.y
+
         rect = pygame.Rect(x, y, 260, 58)
 
         mouse_pos = pygame.mouse.get_pos()
