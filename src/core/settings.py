@@ -1,7 +1,7 @@
 # src/core/settings.py
 class Settings:
-    WIDTH = 1000
-    HEIGHT = 800
+    WIDTH = 1024
+    HEIGHT = 576
     TITLE = "WarPlane"
     FPS = 60
 
