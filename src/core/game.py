@@ -2,6 +2,7 @@ import pygame
 import random
 import time
 from scenes.menu_scene import MenuScene
+from scenes.game_scene import GameScene
 
 from core.settings import Settings
 from core.window import Window
@@ -18,8 +19,11 @@ class Game:
         self.menu_scene = MenuScene(
             self.window.get_surface()
         )
+        self.game_scene = GameScene(
+            self.window.get_surface()
+        )
 
-        self.objectGroup = pygame.sprite.Group()
+        self.current_scene = self.menu_scene
 
         self.running = True
 
@@ -29,16 +33,16 @@ class Game:
             if event.type == pygame.QUIT:
                 self.running = False
 
-    def update(self):
-        test = 'teste'
+            result = self.current_scene.handle_event(event)
+
+            if result == "game":
+                self.current_scene = self.game_scene
+            if result == "menu":
+                self.current_scene = self.menu_scene
+
 
     def draw(self):
-        self.menu_scene.draw()
-
-        self.objectGroup.draw(
-            self.window.get_surface()
-        )
-
+        self.current_scene.draw()
         self.window.update()
 
     def run(self):
@@ -47,7 +51,6 @@ class Game:
             self.clock.tick(self.settings.FPS)
 
             self.handle_events()
-            # self.update()
             self.draw()
 
         # Finaliza o Pygame
