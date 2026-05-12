@@ -69,8 +69,6 @@ class MenuScene:
         x = rect.x
         y = rect.y
 
-        rect = pygame.Rect(x, y, 260, 58)
-
         mouse_pos = pygame.mouse.get_pos()
 
         hovered = rect.collidepoint(mouse_pos)
@@ -138,7 +136,7 @@ class MenuScene:
         )
 
         text_rect = label.get_rect(
-            center=(x + 130, y + 29)
+            center=rect.center
         )
 
         self.screen.blit(label, text_rect)

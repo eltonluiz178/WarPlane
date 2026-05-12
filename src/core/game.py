@@ -3,9 +3,11 @@ import random
 import time
 from scenes.menu_scene import MenuScene
 from scenes.game_scene import GameScene
+from scenes.pause_scene import PauseScene
 
 from core.settings import Settings
 from core.window import Window
+
 
 # Imports das entidades e componentes
 
@@ -20,6 +22,9 @@ class Game:
             self.window.get_surface()
         )
         self.game_scene = GameScene(
+            self.window.get_surface()
+        )
+        self.pause_scene = PauseScene(
             self.window.get_surface()
         )
 
@@ -39,6 +44,8 @@ class Game:
                 self.current_scene = self.game_scene
             if result == "menu":
                 self.current_scene = self.menu_scene
+            if result == "pause":
+                self.current_scene = self.pause_scene
 
 
     def draw(self):
