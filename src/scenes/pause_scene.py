@@ -1,73 +1,53 @@
 import pygame
 
-class MenuScene:
+from core.window import Window
+from core.settings import Settings
+
+class PauseScene:
     def __init__(self, screen):
         self.screen = screen
-
-        self.background = pygame.image.load(
-            "assets/images/backgrounds/menu.png"
-        )
-
-        width = self.screen.get_width()
-        height = self.screen.get_height()
-
-        bg_width = self.background.get_width()
-        bg_height = self.background.get_height()
+        self.settings = Settings()
+        self.window = Window(self.settings)
 
         screen_width = self.screen.get_width()
         screen_height = self.screen.get_height()
+        center = (screen_width // 2, screen_height // 2)
+        button_width = 260
+        button_height = 60
 
-        scale = max(
-            screen_width / bg_width,
-            screen_height / bg_height
-        )
+        self.play_button = pygame.Rect(center[0] - button_width / 2, center[1] - button_height, 260, 58)
 
-        new_width = int(bg_width * scale)
-        new_height = int(bg_height * scale)
-
-        self.background = pygame.transform.scale(
-            self.background,
-            (new_width, new_height)
-        )
+        self.menu_button = pygame.Rect(center[0] - button_width / 2, center[1] + button_height, 260, 58)
 
         self.font = pygame.font.Font(
             "assets/fonts/press_start_regular.ttf",
             12
         )
 
-        self.play_button = pygame.Rect(230, 240, 260, 58)
+    def update(self):
+        pass
 
-        self.config_button = pygame.Rect(230, 310, 260, 58)
+    def draw(self):
+        """Desenha tudo na tela"""
+        self.window.update()  # pygame.display.update()
 
-        self.extras_button = pygame.Rect(230, 380, 260, 58)
+        self.draw_button("RETOMAR", self.play_button)
+        self.draw_button("MENU", self.menu_button)
 
     def handle_event(self, event):
-
         if event.type == pygame.MOUSEBUTTONDOWN:
 
             if event.button == 1:
 
                 mouse_pos = pygame.mouse.get_pos()
 
+                if self.menu_button.collidepoint(mouse_pos):
+                    return "menu"
                 if self.play_button.collidepoint(mouse_pos):
                     return "game"
 
         return None
 
-    def update(self):
-        
-        pass
-
-    def draw(self):
-        bg_x = (self.screen.get_width() - self.background.get_width()) // 2
-        bg_y = (self.screen.get_height() - self.background.get_height()) // 2
-
-        self.screen.blit(self.background, (bg_x, bg_y))
-
-
-        self.draw_button("JOGAR", self.play_button)
-        self.draw_button("CONFIGURAÇÕES", self.config_button)
-        self.draw_button("EXTRAS", self.extras_button)
 
     def draw_button(self, text, rect, selected=False):
         x = rect.x
