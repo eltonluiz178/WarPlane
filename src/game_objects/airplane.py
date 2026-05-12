@@ -7,7 +7,7 @@ class Airplane(pygame.sprite.Sprite):
 
         self.frames = []
         self.current_frame = 0
-        self.animation_speed = 0.15
+        self.animation_speed = 0.45
 
         # Configuração dos frames
         self.frame_width = 200

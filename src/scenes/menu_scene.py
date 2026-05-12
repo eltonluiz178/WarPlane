@@ -54,6 +54,10 @@ class MenuScene:
 
         return None
 
+    def update(self):
+        
+        pass
+
     def draw(self):
         bg_x = (self.screen.get_width() - self.background.get_width()) // 2
         bg_y = (self.screen.get_height() - self.background.get_height()) // 2
