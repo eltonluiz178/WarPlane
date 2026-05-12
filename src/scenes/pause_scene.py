@@ -24,6 +24,9 @@ class PauseScene:
             12
         )
 
+    def update(self):
+        pass
+
     def draw(self):
         """Desenha tudo na tela"""
         self.window.update()  # pygame.display.update()
