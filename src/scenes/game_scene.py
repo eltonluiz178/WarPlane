@@ -2,6 +2,7 @@ import pygame
 
 from core.window import Window
 from core.settings import Settings
+from game_objects.airplane import Airplane
 
 class GameScene:
     def __init__(self, screen):
@@ -29,11 +30,21 @@ class GameScene:
         except FileNotFoundError:
             print("Background 'background-day.png' não encontrado!")
 
+        # ====================== AIRPLANE ======================
+        self.airplane = pygame.sprite.Sprite()
+        airplane = Airplane((200, 200))
+        self.objectGroup.add(airplane)
+
+
+    def update(self):
+
+        self.objectGroup.update()
+
     def draw(self):
         """Desenha tudo na tela"""
         self.objectGroup.draw(self.window.get_surface())
         self.draw_button("PAUSE", self.pause_button)
-        self.window.update()  # pygame.display.update()
+        self.window.update()
 
 
     def handle_event(self, event):
