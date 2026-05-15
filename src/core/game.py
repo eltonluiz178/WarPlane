@@ -1,9 +1,6 @@
 import pygame
 import random
 import time
-
-from managers.sound_manager import SoundManager
-
 from scenes.menu_scene import MenuScene
 from scenes.game_scene import GameScene
 from scenes.pause_scene import PauseScene
@@ -24,8 +21,6 @@ class Game:
 
         self.clock = pygame.time.Clock()
 
-        self.sound = SoundManager()
-
         # ====================== SCENES ======================
 
         self.menu_scene = MenuScene(
@@ -40,7 +35,6 @@ class Game:
         )
 
         self.current_scene = self.menu_scene
-        self.sound.on_scene_change("menu")
 
         self.running = True
 
@@ -55,13 +49,11 @@ class Game:
 
             if result == "game":
                 self.current_scene = self.game_scene
-                self.sound.on_scene_change("game")
+
             if result == "menu":
                 self.current_scene = self.menu_scene
-                self.sound.on_scene_change("menu")
             if result == "pause":
                 self.current_scene = self.pause_scene
-
 
     def update(self):
 
