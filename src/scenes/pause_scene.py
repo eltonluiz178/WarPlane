@@ -29,10 +29,10 @@ class PauseScene:
 
     def draw(self):
         """Desenha tudo na tela"""
-        self.window.update()  # pygame.display.update()
-
         self.draw_button("RETOMAR", self.play_button)
         self.draw_button("MENU", self.menu_button)
+
+        self.window.update()  # pygame.display.update()
 
     def handle_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
