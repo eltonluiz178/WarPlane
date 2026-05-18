@@ -3,35 +3,24 @@ import random
 import time
 
 from managers.sound_manager import SoundManager
-
 from scenes.menu_scene import MenuScene
 from scenes.game_scene import GameScene
 from scenes.pause_scene import PauseScene
-
 from core.settings import Settings
 from core.window import Window
 
-
 class Game:
-
     def __init__(self):
-
         pygame.init()
-
         self.settings = Settings()
-
         self.window = Window(self.settings)
-
         self.clock = pygame.time.Clock()
-
         self.sound = SoundManager()
 
         # ====================== SCENES ======================
-
         self.menu_scene = MenuScene(
             self.window.get_surface()
         )
-
         self.game_scene = GameScene(
             self.window.get_surface()
         )
@@ -41,13 +30,10 @@ class Game:
 
         self.current_scene = self.menu_scene
         self.sound.on_scene_change("menu")
-
         self.running = True
 
     def handle_events(self):
-
         for event in pygame.event.get():
-
             if event.type == pygame.QUIT:
                 self.running = False
 
@@ -62,35 +48,25 @@ class Game:
             if result == "pause":
                 self.current_scene = self.pause_scene
 
-
     def update(self):
-
         self.current_scene.update()
 
     def draw(self):
-
         # Limpa a tela
         self.window.get_surface().fill((0, 0, 0))
-
         # Desenha cena atual
         self.current_scene.draw()
-
         # Atualiza janela
         self.window.update()
 
     def run(self):
-
         while self.running:
-
             # Limita FPS
             self.clock.tick(self.settings.FPS)
-
             # Eventos
             self.handle_events()
-
             # Atualizações
             self.update()
-
             # Renderização
             self.draw()
 
