@@ -1,7 +1,6 @@
 import pygame
 
 class Airplane(pygame.sprite.Sprite):
-
     def __init__(self, pos):
         super().__init__()
 
@@ -40,14 +39,13 @@ class Airplane(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(topleft=pos)
 
     def update(self):
-
         self.current_frame += self.animation_speed
 
         if self.current_frame >= len(self.frames):
             self.current_frame = 0
 
         self.image = self.frames[int(self.current_frame)]
-        
+
     # Para utilizar:
     # # Cria objeto animado
     # airplane = Airplane((200, 200))
