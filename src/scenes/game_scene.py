@@ -10,12 +10,9 @@ class GameScene:
         self.screen = screen
         self.settings = Settings()
 
-        self.pause_button = pygame.Rect(self.settings.WIDTH - 120, 20, 100, 50)
+        self.pause_button_rect = pygame.Rect(self.settings.WIDTH - 120, 20, 100, 50)
 
-        self.font = pygame.font.Font(
-            "assets/fonts/press_start_regular.ttf",
-            12
-        )
+        self.pause_button = GameButton(self.screen, "PAUSE", self.pause_button_rect, 0)
 
         # ====================== GRUPOS ======================
         self.background_group = pygame.sprite.Group()
@@ -60,12 +57,16 @@ class GameScene:
 
     def draw(self):
         """Desenha tudo na tela"""
+        self.objectGroup.draw(self.window.get_surface())
+        self.pause_button.draw()
+        self.window.update()
         self.background_group.draw(self.screen)
 
         self.enemy_group.draw(self.screen)
 
         self.player_group.draw(self.screen)
         self.draw_button("PAUSE", self.pause_button)
+
 
 
     def handle_event(self, event):
