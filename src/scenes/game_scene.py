@@ -3,12 +3,12 @@ import pygame
 from core.window import Window
 from core.settings import Settings
 from game_objects.airplane import Airplane
+from game_objects.enemy import Enemy
 
 class GameScene:
     def __init__(self, screen):
         self.screen = screen
         self.settings = Settings()
-        self.window = Window(self.settings)
 
         self.pause_button = pygame.Rect(self.settings.WIDTH - 120, 20, 100, 50)
 
@@ -17,8 +17,10 @@ class GameScene:
             12
         )
 
-        # ====================== GRUPOS DE SPRITES ======================
-        self.objectGroup = pygame.sprite.Group()
+        # ====================== GRUPOS ======================
+        self.background_group = pygame.sprite.Group()
+        self.player_group = pygame.sprite.GroupSingle()
+        self.enemy_group = pygame.sprite.Group()
 
         # ====================== BACKGROUND ======================
         self.bg = pygame.sprite.Sprite()
@@ -26,35 +28,50 @@ class GameScene:
             self.bg.image = pygame.image.load("assets/images/backgrounds/background-day.png")
             self.bg.image = pygame.transform.scale(self.bg.image,(self.settings.WIDTH, self.settings.HEIGHT))
             self.bg.rect = self.bg.image.get_rect()
-            self.objectGroup.add(self.bg)
+            self.background_group.add(self.bg)
         except FileNotFoundError:
             print("Background 'background-day.png' não encontrado!")
 
         # ====================== AIRPLANE ======================
-        self.airplane = pygame.sprite.Sprite()
-        airplane = Airplane((200, 200))
-        self.objectGroup.add(airplane)
+        self.airplane = Airplane((200, 200))
+        self.player_group.add(self.airplane)
+
+        # ====================== ENEMY SPAWN ======================
+        self.enemy_spawn_timer = 0
+        self.enemy_spawn_delay = 90
 
 
     def update(self):
+        self.player_group.update()
+        self.enemy_group.update()
 
-        self.objectGroup.update()
+        # Spawn inimigos
+        self.enemy_spawn_timer += 1
+
+        if self.enemy_spawn_timer >= self.enemy_spawn_delay:
+
+            enemy = Enemy(
+                self.settings.WIDTH,
+                self.settings.HEIGHT
+            )
+
+            self.enemy_group.add(enemy)
+            self.enemy_spawn_timer = 0
 
     def draw(self):
         """Desenha tudo na tela"""
-        self.objectGroup.draw(self.window.get_surface())
+        self.background_group.draw(self.screen)
+
+        self.enemy_group.draw(self.screen)
+
+        self.player_group.draw(self.screen)
         self.draw_button("PAUSE", self.pause_button)
-        self.window.update()
 
 
     def handle_event(self, event):
-
         if event.type == pygame.MOUSEBUTTONDOWN:
-
             if event.button == 1:
-
                 mouse_pos = pygame.mouse.get_pos()
-
                 if self.pause_button.collidepoint(mouse_pos):
                     return "pause"
 
@@ -66,9 +83,7 @@ class GameScene:
         y = rect.y
 
         mouse_pos = pygame.mouse.get_pos()
-
         hovered = rect.collidepoint(mouse_pos)
-
         active = hovered or selected
 
         # Cores
