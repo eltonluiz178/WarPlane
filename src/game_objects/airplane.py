@@ -2,10 +2,11 @@ import pygame
 from game_objects.bullet import Bullet
 
 class Airplane(pygame.sprite.Sprite):
-    def __init__(self, pos, bullet_group):
+    def __init__(self, pos, bullet_group, sound):
         super().__init__()
 
         self.bullet_group = bullet_group
+        self.sound = sound
         self.frames = []
         self.current_frame = 0
         self.animation_speed = 0.45
@@ -93,6 +94,8 @@ class Airplane(pygame.sprite.Sprite):
                 )
 
                 self.bullet_group.add(bullet)
+
+                self.sound.play_shot()
 
                 self.last_shot = current_time
 

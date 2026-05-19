@@ -22,7 +22,8 @@ class Game:
             self.window.get_surface()
         )
         self.game_scene = GameScene(
-            self.window.get_surface()
+            self.window.get_surface(),
+            self.sound
         )
         self.pause_scene = PauseScene(
             self.window.get_surface()
