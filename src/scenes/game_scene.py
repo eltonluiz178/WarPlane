@@ -4,6 +4,7 @@ from core.window import Window
 from core.settings import Settings
 from game_objects.airplane import Airplane
 from game_objects.enemy import Enemy
+from utils.game_button import GameButton
 
 class GameScene:
     def __init__(self, screen):
@@ -57,24 +58,27 @@ class GameScene:
 
     def draw(self):
         """Desenha tudo na tela"""
-        self.objectGroup.draw(self.window.get_surface())
-        self.pause_button.draw()
-        self.window.update()
+        
         self.background_group.draw(self.screen)
 
         self.enemy_group.draw(self.screen)
 
         self.player_group.draw(self.screen)
-        self.draw_button("PAUSE", self.pause_button)
 
-
-
+        self.pause_button.draw()
+        
     def handle_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
                 mouse_pos = pygame.mouse.get_pos()
-                if self.pause_button.collidepoint(mouse_pos):
+                if self.pause_button.rect.collidepoint(mouse_pos):
                     return "pause"
+                
+        if event.type == pygame.KEYDOWN:
+
+            if event.key == pygame.K_ESCAPE:
+
+                return "pause"
 
         return None
 
