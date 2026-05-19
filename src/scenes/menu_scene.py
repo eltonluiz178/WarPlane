@@ -38,9 +38,9 @@ class MenuScene:
             12
         )
 
-        self.play_button_rect = pygame.Rect(230, 240, 260, 58)
-        self.config_button_rect = pygame.Rect(230, 310, 260, 58)
-        self.extras_button_rect = pygame.Rect(230, 380, 260, 58)
+        self.play_button_rect = pygame.Rect(320, 310, 260, 58)
+        self.config_button_rect = pygame.Rect(320, 380, 260, 58)
+        self.extras_button_rect = pygame.Rect(320, 450, 260, 58)
 
         self.play_button = GameButton(self.screen, "JOGAR", self.play_button_rect, 1)
         self.config_button = GameButton(self.screen, "CONFIGURAÇÕES", self.config_button_rect, 1)
