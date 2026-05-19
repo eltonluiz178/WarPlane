@@ -7,8 +7,9 @@ from game_objects.enemy import Enemy
 from utils.game_button import GameButton
 
 class GameScene:
-    def __init__(self, screen):
+    def __init__(self, screen, sound):
         self.screen = screen
+        self.sound = sound
         self.settings = Settings()
 
         self.pause_button_rect = pygame.Rect(self.settings.WIDTH - 120, 20, 100, 50)
@@ -32,7 +33,7 @@ class GameScene:
             print("Background 'background-day.png' não encontrado!")
 
         # ====================== AIRPLANE ======================
-        self.airplane = Airplane((200, 200), self.bullet_group)
+        self.airplane = Airplane((200, 200), self.bullet_group, self.sound)
         self.player_group.add(self.airplane)
 
         # ====================== ENEMY SPAWN ======================
