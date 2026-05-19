@@ -35,14 +35,14 @@ class PauseScene:
 
     def handle_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
-
             if event.button == 1:
-
                 mouse_pos = pygame.mouse.get_pos()
-
                 if self.menu_button_rect.collidepoint(mouse_pos):
                     return "menu"
                 if self.play_button_rect.collidepoint(mouse_pos):
                     return "game"
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                return "game"
 
         return None
