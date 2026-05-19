@@ -75,9 +75,7 @@ class GameScene:
                     return "pause"
                 
         if event.type == pygame.KEYDOWN:
-
             if event.key == pygame.K_ESCAPE:
-
                 return "pause"
 
         return None
