@@ -19,6 +19,7 @@ class GameScene:
         self.background_group = pygame.sprite.Group()
         self.player_group = pygame.sprite.GroupSingle()
         self.enemy_group = pygame.sprite.Group()
+        self.bullet_group = pygame.sprite.Group()
 
         # ====================== BACKGROUND ======================
         self.bg = pygame.sprite.Sprite()
@@ -31,7 +32,7 @@ class GameScene:
             print("Background 'background-day.png' não encontrado!")
 
         # ====================== AIRPLANE ======================
-        self.airplane = Airplane((200, 200))
+        self.airplane = Airplane((200, 200), self.bullet_group)
         self.player_group.add(self.airplane)
 
         # ====================== ENEMY SPAWN ======================
@@ -42,6 +43,7 @@ class GameScene:
     def update(self):
         self.player_group.update()
         self.enemy_group.update()
+        self.bullet_group.update()
 
         # Spawn inimigos
         self.enemy_spawn_timer += 1
@@ -64,6 +66,8 @@ class GameScene:
         self.enemy_group.draw(self.screen)
 
         self.player_group.draw(self.screen)
+        
+        self.bullet_group.draw(self.screen)
 
         self.pause_button.draw()
         
