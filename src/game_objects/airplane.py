@@ -1,12 +1,16 @@
 import pygame
+from game_objects.bullet import Bullet
 
 class Airplane(pygame.sprite.Sprite):
-    def __init__(self, pos):
+    def __init__(self, pos, bullet_group):
         super().__init__()
 
+        self.bullet_group = bullet_group
         self.frames = []
         self.current_frame = 0
         self.animation_speed = 0.45
+        self.shoot_delay = 600 
+        self.last_shot = 0
 
         # ================= ANIMAÇÃO =================
         self.frame_width = 200
@@ -70,6 +74,27 @@ class Airplane(pygame.sprite.Sprite):
 
         if self.rect.bottom > 720:
             self.rect.bottom = 720
+            
+    def attack(self):
+
+        keys = pygame.key.get_pressed()
+
+        current_time = pygame.time.get_ticks()
+
+        if keys[pygame.K_SPACE]:
+
+            if current_time - self.last_shot > self.shoot_delay:
+
+                bullet = Bullet(
+                    (
+                        self.rect.right,
+                        self.rect.centery
+                    )
+                )
+
+                self.bullet_group.add(bullet)
+
+                self.last_shot = current_time
 
     def animate(self):
 
@@ -84,3 +109,4 @@ class Airplane(pygame.sprite.Sprite):
 
         self.movement()
         self.animate()
+        self.attack()

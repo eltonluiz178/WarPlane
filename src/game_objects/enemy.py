@@ -12,7 +12,7 @@ class Enemy(pygame.sprite.Sprite):
         # Redimensiona
         self.image = pygame.transform.scale(
             image,
-            (120, 60)
+            (240, 120)
         )
 
         self.rect = self.image.get_rect()
