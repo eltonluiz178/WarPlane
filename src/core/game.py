@@ -17,6 +17,16 @@ class Game:
         self.clock = pygame.time.Clock()
         self.sound = SoundManager()
 
+        # ====================== ICON ======================
+
+        icon = pygame.image.load("assets/images/icons/game-icon.png")
+        pygame.display.set_icon(icon)
+
+        self.settings = Settings()
+        self.window = Window(self.settings)
+        self.clock = pygame.time.Clock()
+        self.sound = SoundManager()
+
         # ====================== SCENES ======================
         self.menu_scene = MenuScene(
             self.window.get_surface()
