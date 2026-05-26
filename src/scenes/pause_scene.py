@@ -2,7 +2,7 @@ import pygame
 
 from core.window import Window
 from core.settings import Settings
-from utils.game_button import GameButton
+from components.game_button import GameButton
 
 
 class PauseScene:
