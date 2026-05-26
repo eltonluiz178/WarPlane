@@ -31,8 +31,6 @@ class PauseScene:
         self.play_button.draw()
         self.menu_button.draw()
 
-        self.window.update()  # pygame.display.update()
-
     def handle_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
