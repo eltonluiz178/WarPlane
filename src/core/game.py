@@ -3,6 +3,7 @@ import random
 import time
 
 from managers.sound_manager import SoundManager
+from scenes.config_scene import ConfigScene
 from scenes.menu_scene import MenuScene
 from scenes.game_scene import GameScene
 from scenes.pause_scene import PauseScene
@@ -28,6 +29,10 @@ class Game:
         self.pause_scene = PauseScene(
             self.window.get_surface()
         )
+        self.config_scene = ConfigScene(
+            self.window.get_surface(),
+            self.sound
+        )
 
         self.current_scene = self.menu_scene
         self.sound.on_scene_change("menu")
@@ -48,6 +53,8 @@ class Game:
                 self.sound.on_scene_change("menu")
             if result == "pause":
                 self.current_scene = self.pause_scene
+            if result == "config":
+                self.current_scene = self.config_scene
 
     def update(self):
         self.current_scene.update()
