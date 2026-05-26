@@ -19,10 +19,11 @@ class SoundManager:
         }
 
         self._current_scene = None
-        self._volume = 0.05
+        self._volume_music = 0.05
+        self._volume_effects = 0.05
 
-        self.sfx["airplane"].set_volume(0.2)
-        self.sfx["shot"].set_volume(0.4)
+        self.set_volume_music(self._volume_music)
+        self.set_volume_effects(self._volume_effects)
 
     def on_scene_change(self, scene_name: str):
 
@@ -36,15 +37,20 @@ class SoundManager:
             self._pause()
 
         if scene_name == "game":
-            self.play_airplane()
+            self.play_sfx("airplane", 1)
         else:
-            self.stop_airplane()
+            self.stop_sfx("airplane")
 
         self._current_scene = scene_name
 
-    def set_volume(self, volume: float):
-        self._volume = max(0.0, min(1.0, volume))
-        pygame.mixer.music.set_volume(self._volume)
+    def set_volume_music(self, volume: float):
+        self._volume_music = max(0.0, min(1.0, volume))
+        pygame.mixer.music.set_volume(self._volume_music)
+
+    def set_volume_effects(self, volume: float):
+        self._volume_effects = max(0.0, min(1.0, volume))
+        for sfx in self.sfx.values():
+            sfx.set_volume(self._volume_effects)
 
     def pause(self):
         self._pause()
@@ -61,18 +67,16 @@ class SoundManager:
 
         pygame.mixer.music.stop()
         pygame.mixer.music.load(track_path)
-        pygame.mixer.music.set_volume(self._volume)
+        pygame.mixer.music.set_volume(self._volume_music)
         pygame.mixer.music.play(-1)  # -1 = loop infinito
 
     def _pause(self):
         if pygame.mixer.music.get_busy():
             pygame.mixer.music.pause()
-    
-    def play_airplane(self):
-        self.sfx["airplane"].play(-1)
 
-    def stop_airplane(self):
-        self.sfx["airplane"].stop()
+    def play_sfx(self, sound_name, loop):
+        loops = -1 if loop else 0
+        self.sfx[sound_name].play(loops)
 
-    def play_shot(self):
-        self.sfx["shot"].play()
+    def stop_sfx(self, sound_name):
+        self.sfx[sound_name].stop()
