@@ -95,7 +95,7 @@ class Airplane(pygame.sprite.Sprite):
 
                 self.bullet_group.add(bullet)
 
-                self.sound.play_shot()
+                self.sound.play_sfx("shot", 0)
 
                 self.last_shot = current_time
 

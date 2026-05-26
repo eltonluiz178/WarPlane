@@ -2,7 +2,7 @@ import pygame
 
 from core.window import Window
 from core.settings import Settings
-from utils.game_button import GameButton
+from components.game_button import GameButton
 
 
 class PauseScene:
@@ -30,8 +30,6 @@ class PauseScene:
         """Desenha tudo na tela"""
         self.play_button.draw()
         self.menu_button.draw()
-
-        self.window.update()  # pygame.display.update()
 
     def handle_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:

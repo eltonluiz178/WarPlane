@@ -1,6 +1,6 @@
 import pygame
 
-from utils.game_button import GameButton
+from components.game_button import GameButton
 
 
 class MenuScene:
@@ -56,6 +56,8 @@ class MenuScene:
 
                 if self.play_button.rect.collidepoint(mouse_pos):
                     return "game"
+                if self.config_button.rect.collidepoint(mouse_pos):
+                    return "config"
 
         return None
 

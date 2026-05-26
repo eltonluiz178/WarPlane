@@ -1,10 +1,9 @@
 import pygame
 
-from core.window import Window
 from core.settings import Settings
 from game_objects.airplane import Airplane
 from game_objects.enemy import Enemy
-from utils.game_button import GameButton
+from components.game_button import GameButton
 
 class GameScene:
     def __init__(self, screen, sound):
