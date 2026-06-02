@@ -3,6 +3,7 @@ import pygame
 from core.settings import Settings
 from game_objects.airplane import Airplane
 from game_objects.enemy import Enemy
+from game_objects.boss import Boss
 from components.game_button import GameButton
 
 class GameScene:
@@ -20,6 +21,7 @@ class GameScene:
         self.player_group = pygame.sprite.GroupSingle()
         self.enemy_group = pygame.sprite.Group()
         self.bullet_group = pygame.sprite.Group()
+        self.boss_group = pygame.sprite.GroupSingle()
 
         # ====================== BACKGROUND ======================
         self.bg = pygame.sprite.Sprite()
@@ -39,11 +41,17 @@ class GameScene:
         self.enemy_spawn_timer = 0
         self.enemy_spawn_delay = 90
 
+        # ====================== BOSS SPAWN ======================
+
+        self.boss_spawned = False
+        self.boss_spawn_timer = 0
+
 
     def update(self):
         self.player_group.update()
         self.enemy_group.update()
         self.bullet_group.update()
+        self.boss_group.update()
 
         # Spawn inimigos
         self.enemy_spawn_timer += 1
@@ -58,12 +66,28 @@ class GameScene:
             self.enemy_group.add(enemy)
             self.enemy_spawn_timer = 0
 
+        # Spawn Boss
+        self.boss_spawn_timer += 1
+
+        if (
+            self.boss_spawn_timer >= 900
+            and not self.boss_spawned
+        ):
+            boss = Boss()
+
+            self.boss_group.add(boss)
+
+            self.boss_spawned = True
+
+
     def draw(self):
         """Desenha tudo na tela"""
         
         self.background_group.draw(self.screen)
 
         self.enemy_group.draw(self.screen)
+
+        self.boss_group.draw(self.screen)
 
         self.player_group.draw(self.screen)
         
