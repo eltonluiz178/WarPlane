@@ -1,5 +1,7 @@
 import pygame
 
+from utils.path_helper import resource_path
+
 
 class Bullet(pygame.sprite.Sprite):
 
@@ -9,8 +11,9 @@ class Bullet(pygame.sprite.Sprite):
 
         # ================= IMAGE =================
 
+        bullet_path = resource_path("./assets/images/sprites/bullet_silver.png")
         self.image = pygame.image.load(
-            "./assets/images/sprites/bullet_silver.png"
+            bullet_path
         ).convert_alpha()
 
         # Escala opcional

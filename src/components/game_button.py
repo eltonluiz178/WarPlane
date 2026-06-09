@@ -1,5 +1,7 @@
 import pygame
 
+from utils.path_helper import resource_path
+
 
 class GameButton:
     def __init__(self, screen, text, rect, seta):
@@ -10,8 +12,9 @@ class GameButton:
         self.rect = rect
         self.seta = seta
 
+        font_path = resource_path("assets/fonts/press_start_regular.ttf")
         self.font = pygame.font.Font(
-            "assets/fonts/press_start_regular.ttf",
+            font_path,
             12
         )
 

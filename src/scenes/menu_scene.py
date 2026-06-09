@@ -1,14 +1,16 @@
 import pygame
 
 from components.game_button import GameButton
+from utils.path_helper import resource_path
 
 
 class MenuScene:
     def __init__(self, screen):
         self.screen = screen
 
+        background_path = resource_path("assets/images/backgrounds/menu.png")
         self.background = pygame.image.load(
-            "assets/images/backgrounds/menu.png"
+            background_path
         )
 
         width = self.screen.get_width()
@@ -33,8 +35,9 @@ class MenuScene:
             (new_width, new_height)
         )
 
+        font_path = resource_path("assets/fonts/press_start_regular.ttf")
         self.font = pygame.font.Font(
-            "assets/fonts/press_start_regular.ttf",
+            font_path,
             12
         )
 

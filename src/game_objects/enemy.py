@@ -1,12 +1,16 @@
 import pygame
 import random
 
+from utils.path_helper import resource_path
+
+
 class Enemy(pygame.sprite.Sprite):
     def __init__(self, screen_width, screen_height):
         super().__init__()
 
+        enemy_path = resource_path("assets/images/sprites/enemy_plane.png")
         image = pygame.image.load(
-            "assets/images/sprites/enemy_plane.png"
+            enemy_path
         ).convert_alpha()
 
         # Redimensiona
