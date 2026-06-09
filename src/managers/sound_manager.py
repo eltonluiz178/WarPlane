@@ -1,21 +1,25 @@
 import pygame
 from utils.path_helper import resource_path
+from pathlib import Path
 
 
 class SoundManager:
     def __init__(self):
         pygame.mixer.init()
+        BASE_DIR = Path(__file__).resolve().parent.parent.parent
+
+        sound_path = BASE_DIR / "assets" / "sounds"
 
         # Registro de músicas por cena
         self._tracks = {
-            "menu": resource_path("assets/sounds/musics/boss_opening_music.mp3"),
-            "boss": resource_path("assets/sounds/musics/boss_opening_music.mp3"),
-            "game": resource_path("assets/sounds/musics/music_game.mp3"),
+            "menu": resource_path(sound_path / "musics" / "boss_opening_music.mp3"),
+            "boss": resource_path(sound_path / "musics" / "boss_opening_music.mp3"),
+            "game": resource_path(sound_path / "musics" / "music_game.mp3"),
         }
 
         self.sfx = {
-            "airplane": pygame.mixer.Sound(resource_path("assets/sounds/sfx/airplane.mp3")),
-            "shot": pygame.mixer.Sound(resource_path("assets/sounds/sfx/shot.mp3")),
+            "airplane": pygame.mixer.Sound(resource_path(sound_path / "sfx" / "airplane.mp3")),
+            "shot": pygame.mixer.Sound(resource_path(sound_path / "sfx" / "shot.mp3")),
         }
 
         self._current_scene = None
