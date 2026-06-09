@@ -1,3 +1,4 @@
+from game_objects.health import HealthBar
 import pygame
 
 from core.settings import Settings
@@ -45,6 +46,13 @@ class GameScene:
 
         self.boss_spawned = False
         self.boss_spawn_timer = 0
+        
+        # ====================== HEALTH BAR ======================
+
+        self.health_bar = HealthBar(
+            self.screen,
+            self.airplane
+        )
 
 
     def update(self):
@@ -93,6 +101,8 @@ class GameScene:
         
         self.bullet_group.draw(self.screen)
 
+        self.health_bar.draw()
+        
         self.pause_button.draw()
         
     def handle_event(self, event):

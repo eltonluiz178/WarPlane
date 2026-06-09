@@ -16,7 +16,7 @@ class Bullet(pygame.sprite.Sprite):
         # Escala opcional
         self.image = pygame.transform.scale(
             self.image,
-            (32, 16)
+            (24, 12)
         )
 
         # ================= RECT =================
@@ -27,7 +27,7 @@ class Bullet(pygame.sprite.Sprite):
 
         # ================= MOVEMENT =================
 
-        self.speed = 12
+        self.speed = 14
 
     def update(self):
 

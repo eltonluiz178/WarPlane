@@ -12,6 +12,8 @@ class Airplane(pygame.sprite.Sprite):
         self.animation_speed = 0.45
         self.shoot_delay = 600 
         self.last_shot = 0
+        self.max_life = 250
+        self.life = self.max_life
 
         # ================= ANIMAÇÃO =================
         self.frame_width = 200
@@ -88,8 +90,8 @@ class Airplane(pygame.sprite.Sprite):
 
                 bullet = Bullet(
                     (
-                        self.rect.right,
-                        self.rect.centery
+                        self.rect.right - 15,
+                        self.rect.centery + 10
                     )
                 )
 
@@ -98,6 +100,22 @@ class Airplane(pygame.sprite.Sprite):
                 self.sound.play_sfx("shot", 0)
 
                 self.last_shot = current_time
+                
+    def take_damage(self, damage):
+
+        self.life -= damage
+
+        if self.life <= 0:
+            self.life = 0
+            self.die()
+
+    def heal(self, amount):
+
+        self.life += amount
+
+        if self.life > self.max_life:
+            self.life = self.max_life
+
 
     def animate(self):
 
