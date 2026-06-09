@@ -14,6 +14,7 @@ __pycache__/
 dist/
 build/
 *.egg-info/
+*.spec
 
 # Logs e variados
 *.log
