@@ -1,5 +1,7 @@
 import pygame
 from game_objects.bullet import Bullet
+from utils.path_helper import resource_path
+
 
 class Airplane(pygame.sprite.Sprite):
     def __init__(self, pos, bullet_group, sound):
@@ -19,8 +21,9 @@ class Airplane(pygame.sprite.Sprite):
         self.frame_width = 200
         self.frame_height = 100
 
+        airplane_path = resource_path("./assets/images/sprites/airplane_sprite.png")
         sprite_sheet = pygame.image.load(
-            "./assets/images/sprites/airplane_sprite.png"
+            airplane_path
         ).convert_alpha()
 
         sheet_width = sprite_sheet.get_width()

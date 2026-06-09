@@ -9,6 +9,8 @@ from scenes.game_scene import GameScene
 from scenes.pause_scene import PauseScene
 from core.settings import Settings
 from core.window import Window
+from utils.path_helper import resource_path
+
 
 class Game:
     def __init__(self):
@@ -20,7 +22,8 @@ class Game:
 
         # ====================== ICON ======================
 
-        icon = pygame.image.load("assets/images/icons/game-icon.png")
+        game_icon_path = resource_path("assets/images/icons/game-icon.png")
+        icon = pygame.image.load(game_icon_path)
         pygame.display.set_icon(icon)
 
         self.settings = Settings()

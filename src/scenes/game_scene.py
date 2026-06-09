@@ -6,6 +6,8 @@ from game_objects.airplane import Airplane
 from game_objects.enemy import Enemy
 from game_objects.boss import Boss
 from components.game_button import GameButton
+from utils.path_helper import resource_path
+
 
 class GameScene:
     def __init__(self, screen, sound):
@@ -27,7 +29,8 @@ class GameScene:
         # ====================== BACKGROUND ======================
         self.bg = pygame.sprite.Sprite()
         try:
-            self.bg.image = pygame.image.load("assets/images/backgrounds/background-day.png")
+            background_path = resource_path("assets/images/backgrounds/background-day.png")
+            self.bg.image = pygame.image.load(background_path)
             self.bg.image = pygame.transform.scale(self.bg.image,(self.settings.WIDTH, self.settings.HEIGHT))
             self.bg.rect = self.bg.image.get_rect()
             self.background_group.add(self.bg)
@@ -115,66 +118,3 @@ class GameScene:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 return "pause"
-
-        return None
-
-
-    def draw_button(self, text, rect, selected=False):
-        x = rect.x
-        y = rect.y
-
-        mouse_pos = pygame.mouse.get_pos()
-        hovered = rect.collidepoint(mouse_pos)
-        active = hovered or selected
-
-        # Cores
-        if active:
-            bg_color = (168, 78, 18)
-            border_color = (255, 170, 70)
-            text_color = (255, 245, 220)
-            arrow_color = (255, 140, 0)
-        else:
-            bg_color = (18, 18, 18)
-            border_color = (90, 90, 50)
-            text_color = (230, 230, 230)
-
-        # Fundo principal
-        pygame.draw.rect(
-            self.screen,
-            bg_color,
-            rect,
-            border_radius=4
-        )
-
-        # Borda externa
-        pygame.draw.rect(
-            self.screen,
-            border_color,
-            rect,
-            width=2,
-            border_radius=4
-        )
-
-        # Linha interna
-        inner_rect = rect.inflate(-8, -8)
-
-        pygame.draw.rect(
-            self.screen,
-            (60, 60, 40),
-            inner_rect,
-            width=1,
-            border_radius=2
-        )
-
-        # Texto
-        label = self.font.render(
-            text,
-            True,
-            text_color
-        )
-
-        text_rect = label.get_rect(
-            center=rect.center
-        )
-
-        self.screen.blit(label, text_rect)

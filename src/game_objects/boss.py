@@ -1,12 +1,16 @@
 import pygame
 
+from utils.path_helper import resource_path
+
+
 class Boss(pygame.sprite.Sprite):
 
     def __init__(self):
         super().__init__()
 
+        boss_path = resource_path("assets/images/sprites/boss_juggernaut.png")
         self.image = pygame.image.load(
-            "assets/images/sprites/boss_juggernaut.png"
+            boss_path
         ).convert_alpha()
 
         self.rect = self.image.get_rect()
