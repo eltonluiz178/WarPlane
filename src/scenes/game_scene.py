@@ -64,6 +64,46 @@ class GameScene:
         self.bullet_group.update()
         self.boss_group.update()
 
+        # ================= COLISÕES =================
+
+        # Bala x Inimigo
+        hits = pygame.sprite.groupcollide(
+            self.bullet_group,
+            self.enemy_group,
+            True,   # remove bala
+            True    # remove inimigo
+        )
+
+        # Avião x Inimigo
+        player_hit = pygame.sprite.spritecollide(
+            self.airplane,
+            self.enemy_group,
+            True
+        )
+
+        if player_hit:
+            print("GAME OVER")
+
+        # Bala x Boss
+        boss_hits = pygame.sprite.groupcollide(
+            self.bullet_group,
+            self.boss_group,
+            True,   # remove bala
+            False   # não remove o boss
+        )
+
+        if boss_hits:
+            print("Boss atingido")
+
+        # Avião x Boss
+        if pygame.sprite.spritecollide(
+            self.airplane,
+            self.boss_group,
+            False
+        ):
+            print("GAME OVER")
+
+
         # Spawn inimigos
         self.enemy_spawn_timer += 1
 
@@ -93,7 +133,7 @@ class GameScene:
 
     def draw(self):
         """Desenha tudo na tela"""
-        
+
         self.background_group.draw(self.screen)
 
         self.enemy_group.draw(self.screen)
@@ -101,20 +141,20 @@ class GameScene:
         self.boss_group.draw(self.screen)
 
         self.player_group.draw(self.screen)
-        
+
         self.bullet_group.draw(self.screen)
 
         self.health_bar.draw()
         
         self.pause_button.draw()
-        
+
     def handle_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN:
             if event.button == 1:
                 mouse_pos = pygame.mouse.get_pos()
                 if self.pause_button.rect.collidepoint(mouse_pos):
                     return "pause"
-                
+
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
                 return "pause"
