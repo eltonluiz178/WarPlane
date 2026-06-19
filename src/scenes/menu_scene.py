@@ -61,6 +61,8 @@ class MenuScene:
                     return "game"
                 if self.config_button.rect.collidepoint(mouse_pos):
                     return "config"
+                if self.extras_button.rect.collidepoint(mouse_pos):
+                    return "extras"
 
         return None
 
