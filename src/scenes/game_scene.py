@@ -49,7 +49,8 @@ class GameScene:
 
         self.boss_spawned = False
         self.boss_spawn_timer = 0
-        
+        self.boss_health_bar = None
+
         # ====================== HEALTH BAR ======================
 
         self.health_bar = HealthBar(
@@ -64,9 +65,9 @@ class GameScene:
         self.bullet_group.update()
         self.boss_group.update()
 
-        # ================= COLISÕES =================
+       # ================= COLISÕES =================
 
-        # Bala x Inimigo
+        # 1. Bala x Inimigo
         hits = pygame.sprite.groupcollide(
             self.bullet_group,
             self.enemy_group,
@@ -74,35 +75,39 @@ class GameScene:
             True    # remove inimigo
         )
 
-        # Avião x Inimigo
-        player_hit = pygame.sprite.spritecollide(
+        # 2. Avião x Inimigo
+        player_hits = pygame.sprite.spritecollide(
             self.airplane,
             self.enemy_group,
-            True
+            True # Remove o inimigo ao bater
         )
 
-        if player_hit:
-            print("GAME OVER")
+        for hit in player_hits:
+            self.airplane.take_damage(50)  # Dano causado por um inimigo comum
+            if self.airplane.life <= 0:
+                print("GAME OVER - Avião Destruído")
 
-        # Bala x Boss
+
+        # 3. Bala x Boss
         boss_hits = pygame.sprite.groupcollide(
             self.bullet_group,
             self.boss_group,
             True,   # remove bala
-            False   # não remove o boss
+            False   # não remove o boss instantaneamente
         )
 
-        if boss_hits:
-            print("Boss atingido")
+        # Aplica dano ao Boss para cada bala que bater
+        for bullet, bosses in boss_hits.items():
+            for b in bosses:
+                b.take_damage(25) # Valor do dano da bala
+                print(f"Boss atingido! Vida: {b.life}")
 
-        # Avião x Boss
-        if pygame.sprite.spritecollide(
-            self.airplane,
-            self.boss_group,
-            False
-        ):
-            print("GAME OVER")
-
+        # 4. Avião x Boss
+        if pygame.sprite.spritecollide(self.airplane, self.boss_group, False):
+            # Aplica dano  contínuo por frame
+            self.airplane.take_damage(2)
+            if self.airplane.life <= 0:
+                print("GAME OVER - Avião Esmagado pelo Boss")
 
         # Spawn inimigos
         self.enemy_spawn_timer += 1
@@ -120,6 +125,20 @@ class GameScene:
         # Spawn Boss
         self.boss_spawn_timer += 1
 
+        if self.boss_spawn_timer >= 900 and not self.boss_spawned:
+            boss = Boss()
+            self.boss_group.add(boss)
+            self.boss_spawned = True
+
+            # Cria a barra de vida do Boss centralizada no topo e vermelha
+            self.boss_health_bar = HealthBar(
+                self.screen,
+                boss,
+                x=(self.settings.WIDTH // 2) - 150, # Centraliza
+                y=20,
+                color=(220, 50, 50) # Vermelho
+            )
+
         if (
             self.boss_spawn_timer >= 900
             and not self.boss_spawned
@@ -133,19 +152,18 @@ class GameScene:
 
     def draw(self):
         """Desenha tudo na tela"""
-
         self.background_group.draw(self.screen)
-
         self.enemy_group.draw(self.screen)
-
         self.boss_group.draw(self.screen)
-
         self.player_group.draw(self.screen)
-
         self.bullet_group.draw(self.screen)
 
         self.health_bar.draw()
-        
+
+        # Desenha a barra do boss só se ele existir e ainda tiver vida
+        if self.boss_health_bar and self.boss_group.sprite:
+            self.boss_health_bar.draw()
+
         self.pause_button.draw()
 
     def handle_event(self, event):

@@ -12,7 +12,7 @@ class Airplane(pygame.sprite.Sprite):
         self.frames = []
         self.current_frame = 0
         self.animation_speed = 0.45
-        self.shoot_delay = 600 
+        self.shoot_delay = 600
         self.last_shot = 0
         self.max_life = 250
         self.life = self.max_life
@@ -68,7 +68,7 @@ class Airplane(pygame.sprite.Sprite):
         # Baixo
         if keys[pygame.K_s] or keys[pygame.K_DOWN]:
             self.rect.y += self.speed
-            
+
         if self.rect.left < 0:
             self.rect.left = 0
 
@@ -80,7 +80,7 @@ class Airplane(pygame.sprite.Sprite):
 
         if self.rect.bottom > 720:
             self.rect.bottom = 720
-            
+
     def attack(self):
 
         keys = pygame.key.get_pressed()
@@ -103,7 +103,7 @@ class Airplane(pygame.sprite.Sprite):
                 self.sound.play_sfx("shot", 0)
 
                 self.last_shot = current_time
-                
+
     def take_damage(self, damage):
 
         self.life -= damage
@@ -119,6 +119,8 @@ class Airplane(pygame.sprite.Sprite):
         if self.life > self.max_life:
             self.life = self.max_life
 
+    def die(self):
+        self.kill()
 
     def animate(self):
 
