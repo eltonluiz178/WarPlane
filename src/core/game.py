@@ -7,6 +7,7 @@ from scenes.config_scene import ConfigScene
 from scenes.menu_scene import MenuScene
 from scenes.game_scene import GameScene
 from scenes.pause_scene import PauseScene
+from scenes.countdown_scene import CountdownScene
 from core.settings import Settings
 from core.window import Window
 from utils.path_helper import resource_path
@@ -46,6 +47,9 @@ class Game:
             self.window.get_surface(),
             self.sound
         )
+        self.countdown_scene = CountdownScene(
+            self.window.get_surface()
+        )
 
         self.current_scene = self.menu_scene
         self.sound.on_scene_change("menu")
@@ -59,7 +63,8 @@ class Game:
             result = self.current_scene.handle_event(event)
 
             if result == "game":
-                self.current_scene = self.game_scene
+                self.countdown_scene.reset()
+                self.current_scene = self.countdown_scene
                 self.sound.on_scene_change("game")
             if result == "menu":
                 self.current_scene = self.menu_scene
@@ -70,7 +75,9 @@ class Game:
                 self.current_scene = self.config_scene
 
     def update(self):
-        self.current_scene.update()
+        result = self.current_scene.update()
+        if result == "game":
+            self.current_scene = self.game_scene
 
     def draw(self):
         # Limpa a tela
