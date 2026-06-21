@@ -1,22 +1,19 @@
 import pygame
 
 class HealthBar:
-
-    def __init__(self, screen, player):
-
+    # Adicionamos x, y e color como opcionais
+    def __init__(self, screen, entity, x=20, y=20, color=(50, 220, 50)):
         self.screen = screen
-        self.player = player
+        self.entity = entity # Mudamos o nome de player para entity (entidade)
+        self.max_life = entity.max_life
 
-        self.max_life = player.life
-
-        self.x = 20
-        self.y = 20
-
+        self.x = x
+        self.y = y
         self.width = 300
         self.height = 25
+        self.color = color
 
     def draw(self):
-
         # Fundo
         pygame.draw.rect(
             self.screen,
@@ -25,14 +22,12 @@ class HealthBar:
         )
 
         # Vida atual
-        current_width = (
-            self.player.life /
-            self.player.max_life
-        ) * self.width
+        current_width = (self.entity.life / self.entity.max_life) * self.width
 
+        # Cor dinâmica baseada no que foi passado no __init__
         pygame.draw.rect(
             self.screen,
-            (50, 220, 50),
+            self.color,
             (self.x, self.y, current_width, self.height)
         )
 
