@@ -8,6 +8,7 @@ from scenes.menu_scene import MenuScene
 from scenes.game_scene import GameScene
 from scenes.pause_scene import PauseScene
 from scenes.countdown_scene import CountdownScene
+from scenes.extras_scene import ExtrasScene
 from core.settings import Settings
 from core.window import Window
 from utils.path_helper import resource_path
@@ -50,6 +51,9 @@ class Game:
         self.countdown_scene = CountdownScene(
             self.window.get_surface()
         )
+        self.extras_scene = ExtrasScene(
+            self.window.get_surface()
+        )
 
         self.current_scene = self.menu_scene
         self.sound.on_scene_change("menu")
@@ -73,6 +77,8 @@ class Game:
                 self.current_scene = self.pause_scene
             if result == "config":
                 self.current_scene = self.config_scene
+            if result == "extras":
+                self.current_scene = self.extras_scene
 
     def update(self):
         result = self.current_scene.update()

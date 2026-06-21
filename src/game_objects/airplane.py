@@ -12,7 +12,7 @@ class Airplane(pygame.sprite.Sprite):
         self.frames = []
         self.current_frame = 0
         self.animation_speed = 0.45
-        self.shoot_delay = 600
+        self.shoot_delay = 250
         self.last_shot = 0
         self.max_life = 250
         self.life = self.max_life
