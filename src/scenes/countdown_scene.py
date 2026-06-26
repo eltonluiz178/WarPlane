@@ -8,9 +8,7 @@ class CountdownScene:
         self.screen = screen
         self.settings = Settings()
 
-        background_path = resource_path("assets/images/backgrounds/background-day.png")
-        bg = pygame.image.load(background_path)
-        self.background = pygame.transform.scale(bg, (self.settings.WIDTH, self.settings.HEIGHT))
+        self.set_background("night")
 
         font_path = resource_path("assets/fonts/press_start_regular.ttf")
         self.font_number = pygame.font.Font(font_path, 120)
@@ -30,6 +28,17 @@ class CountdownScene:
             (0.8, "Começar!", self.font_start),
         ]
         self._total = sum(d for d, *_ in self._steps)
+
+    def set_background(self, stage_id):
+        background_map = {
+            "day": "assets/images/backgrounds/background-day.png",
+            "night": "assets/images/backgrounds/background-night.png",
+            "snow": "assets/images/backgrounds/background-snow.png",
+        }
+
+        background_path = background_map.get(stage_id, "assets/images/backgrounds/background-day.png")
+        bg = pygame.image.load(resource_path(background_path))
+        self.background = pygame.transform.scale(bg, (self.settings.WIDTH, self.settings.HEIGHT))
 
     def reset(self):
         self._elapsed = 0.0
