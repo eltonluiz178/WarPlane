@@ -43,6 +43,7 @@ class GameScene:
         self.boss_spawned = False
         self.boss_spawn_timer = 0
         self.boss_health_bar = None
+        self.phase_complete = False
 
         # ====================== HEALTH BAR ======================
 
@@ -71,6 +72,24 @@ class GameScene:
             self.background_group.add(self.bg)
         except FileNotFoundError:
             print(f"Background '{background_path}' não encontrado!")
+
+    def reset_game(self):
+        """Reseta o estado do jogo para uma nova partida"""
+        self.player_group.empty()
+        self.enemy_group.empty()
+        self.bullet_group.empty()
+        self.boss_group.empty()
+        
+        self.airplane = Airplane((200, 200), self.bullet_group, self.sound)
+        self.player_group.add(self.airplane)
+        
+        self.health_bar = HealthBar(self.screen, self.airplane)
+        
+        self.enemy_spawn_timer = 0
+        self.boss_spawned = False
+        self.boss_spawn_timer = 0
+        self.boss_health_bar = None
+        self.phase_complete = False
 
     def update(self):
         self.player_group.update()
@@ -114,6 +133,11 @@ class GameScene:
             for b in bosses:
                 b.take_damage(25) # Valor do dano da bala
                 print(f"Boss atingido! Vida: {b.life}")
+                
+                # Verifica se o boss foi derrotado
+                if b.life <= 0:
+                    print("BOSS DERROTADO!")
+                    self.phase_complete = True
 
         # 4. Avião x Boss
         if pygame.sprite.spritecollide(self.airplane, self.boss_group, False):
@@ -161,6 +185,10 @@ class GameScene:
             self.boss_group.add(boss)
 
             self.boss_spawned = True
+
+        # Verifica se a fase foi concluída
+        if self.phase_complete:
+            return "phase_complete"
 
 
     def draw(self):
