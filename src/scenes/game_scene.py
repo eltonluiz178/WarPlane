@@ -28,14 +28,7 @@ class GameScene:
 
         # ====================== BACKGROUND ======================
         self.bg = pygame.sprite.Sprite()
-        try:
-            background_path = resource_path("assets/images/backgrounds/background-day.png")
-            self.bg.image = pygame.image.load(background_path)
-            self.bg.image = pygame.transform.scale(self.bg.image,(self.settings.WIDTH, self.settings.HEIGHT))
-            self.bg.rect = self.bg.image.get_rect()
-            self.background_group.add(self.bg)
-        except FileNotFoundError:
-            print("Background 'background-day.png' não encontrado!")
+        self.set_stage("day")
 
         # ====================== AIRPLANE ======================
         self.airplane = Airplane((200, 200), self.bullet_group, self.sound)
@@ -58,6 +51,26 @@ class GameScene:
             self.airplane
         )
 
+
+    def set_stage(self, stage_id):
+        self.background_group.empty()
+
+        background_map = {
+            "day": "assets/images/backgrounds/background-day.png",
+            "night": "assets/images/backgrounds/background-night.png",
+            "snow": "assets/images/backgrounds/background-snow.png",
+        }
+
+        background_path = background_map.get(stage_id, "assets/images/backgrounds/background-day.png")
+
+        try:
+            self.bg = pygame.sprite.Sprite()
+            self.bg.image = pygame.image.load(resource_path(background_path))
+            self.bg.image = pygame.transform.scale(self.bg.image, (self.settings.WIDTH, self.settings.HEIGHT))
+            self.bg.rect = self.bg.image.get_rect()
+            self.background_group.add(self.bg)
+        except FileNotFoundError:
+            print(f"Background '{background_path}' não encontrado!")
 
     def update(self):
         self.player_group.update()
