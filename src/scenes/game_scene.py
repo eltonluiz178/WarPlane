@@ -3,6 +3,7 @@ import pygame
 
 from core.settings import Settings
 from game_objects.airplane import Airplane
+from game_objects.explosion import Explosion
 from game_objects.enemy import Enemy
 from game_objects.boss import Boss
 from components.game_button import GameButton
@@ -24,6 +25,7 @@ class GameScene:
         self.player_group = pygame.sprite.GroupSingle()
         self.enemy_group = pygame.sprite.Group()
         self.bullet_group = pygame.sprite.Group()
+        self.explosion_group = pygame.sprite.Group()
         self.boss_group = pygame.sprite.GroupSingle()
 
         # ====================== BACKGROUND ======================
@@ -95,6 +97,7 @@ class GameScene:
         self.player_group.update()
         self.enemy_group.update()
         self.bullet_group.update()
+        self.explosion_group.update()
         self.boss_group.update()
 
        # ================= COLISÕES =================
@@ -113,6 +116,11 @@ class GameScene:
             self.enemy_group,
             True # Remove o inimigo ao bater
         )
+
+        for enemy in hits:
+            explosion = Explosion(*enemy.rect.center)
+            self.explosion_group.add(explosion)
+            enemy.kill()
 
         for hit in player_hits:
             self.airplane.take_damage(50)  # Dano causado por um inimigo comum
@@ -198,7 +206,7 @@ class GameScene:
         self.boss_group.draw(self.screen)
         self.player_group.draw(self.screen)
         self.bullet_group.draw(self.screen)
-
+        self.explosion_group.draw(self.screen)
         self.health_bar.draw()
 
         # Desenha a barra do boss só se ele existir e ainda tiver vida
