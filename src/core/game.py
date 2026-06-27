@@ -9,6 +9,8 @@ from scenes.game_scene import GameScene
 from scenes.pause_scene import PauseScene
 from scenes.countdown_scene import CountdownScene
 from scenes.extras_scene import ExtrasScene
+from scenes.stage_select_scene import StageSelectScene
+from scenes.phase_complete_scene import PhaseCompleteScene
 from core.settings import Settings
 from core.window import Window
 from utils.path_helper import resource_path
@@ -54,7 +56,14 @@ class Game:
         self.extras_scene = ExtrasScene(
             self.window.get_surface()
         )
+        self.stage_select_scene = StageSelectScene(
+            self.window.get_surface()
+        )
+        self.phase_complete_scene = PhaseCompleteScene(
+            self.window.get_surface()
+        )
 
+        self.selected_stage = "day"
         self.current_scene = self.menu_scene
         self.sound.on_scene_change("menu")
         self.running = True
@@ -67,9 +76,7 @@ class Game:
             result = self.current_scene.handle_event(event)
 
             if result == "game":
-                self.countdown_scene.reset()
-                self.current_scene = self.countdown_scene
-                self.sound.on_scene_change("game")
+                self.current_scene = self.stage_select_scene
             if result == "menu":
                 self.current_scene = self.menu_scene
                 self.sound.on_scene_change("menu")
@@ -79,11 +86,26 @@ class Game:
                 self.current_scene = self.config_scene
             if result == "extras":
                 self.current_scene = self.extras_scene
+            if result == "stage_select":
+                self.current_scene = self.stage_select_scene
+            if isinstance(result, tuple) and result[0] == "start_game":
+                self.selected_stage = result[1]
+                self.game_scene.reset_game()
+                self.game_scene.set_stage(self.selected_stage)
+                self.countdown_scene.set_background(self.selected_stage)
+                self.countdown_scene.reset()
+                self.current_scene = self.countdown_scene
+                self.sound.on_scene_change("game")
 
     def update(self):
         result = self.current_scene.update()
         if result == "game":
             self.current_scene = self.game_scene
+        if result == "phase_complete":
+            self.game_scene.reset_game()
+            self.current_scene = self.stage_select_scene
+        if result == "stage_select":
+            self.current_scene = self.stage_select_scene
 
     def draw(self):
         # Limpa a tela
